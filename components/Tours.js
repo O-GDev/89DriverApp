@@ -1,7 +1,6 @@
 import { Button, StyleSheet, Text, View,TouchableOpacity,Dimensions } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-import Home from '../Screens/Homepage';
 
 const{width,height} = Dimensions.get('window');
 const Tours = () => {

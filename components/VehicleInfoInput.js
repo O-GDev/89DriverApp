@@ -3,6 +3,9 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-root-toast';
+import {apiUrl} from '../config'
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const {width,height} = Dimensions.get('window');
@@ -14,45 +17,39 @@ const VehicleInfoInput = () => {
 
   const navigation = useNavigation();
   const handleVehicleInfo = async () => {
-    try {
-      let response = await fetch(
-        'https://driver86.herokuapp.com/api/vehiclecheck/',{
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            'make':make,
-            'model':model,
-            'year' :year,
-            'color': color
-          })
-        
-        }
-      );
-      let json = await response.json();
-      navigation.navigate('Tour',{})
-      //  console.log(phoneNumber)
-       console.log(json)
-      return json;
-    } catch (error) {
-       console.error(error);
+    const vehicleInfo = {
+      make,
+      model,
+      year,
+      color
     }
+
+    const token = await AsyncStorage.getItem("user");
+    const authToken = JSON.parse(token)
+    let config = {
+      headers: {
+        Authorization: `Token ${authToken}`,
+      },
+    };
+    if (!make.trim() || !model.trim() || !year.trim() || !color.trim()){
+      Toast.show('All fields are required! ')
+    }else {
+      const vehicleResponse = await  axios.post(`${apiUrl}/api/vehiclecheck/`, vehicleInfo, config)
+      if(vehicleResponse.data.status === true){
+        Toast.show('Vehicle Info Added Successfully')
+        navigation.navigate('Tour')
+
+      }
+
+    }
+   
     
   };
 
 
 
 
-  const VehicleValidation = () => {
-    if (make==="" || model==="" || year==="" || color===""){
-      Toast.show('All fields are required! ')
-      return false
-    }else
-    navigation.navigate('Tour')
-    return true
-  }
+
   return (
  
     <SafeAreaView style={{width:width,height:height}}  >
@@ -94,7 +91,7 @@ const VehicleInfoInput = () => {
         </View>
       </View>
       <View style={{}}>
-     <TouchableOpacity onPress={VehicleValidation} style={{alignSelf:'center',backgroundColor:'#111AE5',width:width-35,padding:5,height:45,justifyContent:'center'}}><Text style={{color:'white',fontWeight:'bold',alignSelf:'center',fontSize:23}}>CONTINUE</Text></TouchableOpacity>
+     <TouchableOpacity onPress={handleVehicleInfo} style={{alignSelf:'center',backgroundColor:'#111AE5',width:width-35,padding:5,height:45,justifyContent:'center'}}><Text style={{color:'white',fontWeight:'bold',alignSelf:'center',fontSize:23}}>CONTINUE</Text></TouchableOpacity>
      </View>
     </SafeAreaView>
   )

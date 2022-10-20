@@ -10,7 +10,6 @@ const navigation = useNavigation();
   return (
     <KeyboardAvoidingView>
     <ScrollView>
-   
      <VehicleInfoInput />
     </ScrollView>
     </KeyboardAvoidingView>
