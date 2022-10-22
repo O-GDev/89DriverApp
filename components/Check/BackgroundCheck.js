@@ -100,13 +100,10 @@ const BackgroundCheck = () => {
       Toast.show('Driver Created Successfully')
       navigation.navigate("Vehicle Info");
     }else{
-      Toast.show(driverProfile.data.status)
+      Toast.show(driverProfile.data.status);
     }
 
-    // } else{
-
-
-    // }
+  
   };
 
   return (

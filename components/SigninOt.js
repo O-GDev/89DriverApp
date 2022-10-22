@@ -34,13 +34,19 @@ const SigninOt = ({ emailName, phoneNumber }) => {
       phone: user.phone,
     };
     // Alert.alert(newDetails.otpCode)
-    const loginResponse = await axios.post(`${apiUrl}/api/login/`, newDetails);
-    console.warn(loginResponse)
+    const loginResponse = await axios.post(`${apiUrl}/api/login/`, newDetails);    
     if (loginResponse.status === 200) {
       Toast.show('Sign In Success')
       const token = loginResponse.data.token;
+      const expiry = loginResponse.data.expiry;
       await AsyncStorage.setItem("user", JSON.stringify(token));
+      await AsyncStorage.setItem("expiryDate", JSON.stringify(expiry));
+      const loginStatus = loginResponse.data.user.first_login
+      if(loginStatus === true){
         navigation.navigate('Background Check')
+      } else{
+        navigation.navigate('Home')
+      }    
      
     }
   };

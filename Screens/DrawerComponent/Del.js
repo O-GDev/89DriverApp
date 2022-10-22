@@ -2,10 +2,17 @@ import { View, Text, TouchableOpacity,StatusBar,SafeAreaView,Image } from 'react
 import React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
+import { useState } from 'react';
+import Toast from 'react-native-root-toast';
 export default function Del() {
+  const route = useRoute()
+  const details = route.params.requestDetails
   const navigation = useNavigation();
+
+
+  // console.warn(details)
   return (
     
     <View>
@@ -24,10 +31,10 @@ export default function Del() {
  />
       </View>
       <View style={{paddingBottom:15}}>
-      <Text style={{paddingLeft:15,paddingTop:5,fontSize:17,fontWeight:'600',}}>Frozen Food Joint</Text>
+      <Text style={{paddingLeft:15,paddingTop:5,fontSize:17,fontWeight:'600',}}>{details.resturant_name}</Text>
           <Text style={{fontSize: 15,paddingLeft:10 }}>
           <FontAwesome5 name='map-marker-alt' color={"blue"} size={30} />
-         <Text style={{paddingLeft:3}}> 2324 Murphy Court, East Derry, New Hampshire</Text>
+         <Text style={{paddingLeft:3}}> {details.delivery_address}</Text>
           </Text>
       </View>
           <View>
@@ -40,7 +47,7 @@ export default function Del() {
      </View>
      </View>
     <View style={{paddingRight:10,paddingTop:15,paddingBottom:5}}>
-         <TouchableOpacity onPress={() => navigation.navigate('Deli')} style={{backgroundColor:'blue',width:'30%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >Start</Text></TouchableOpacity>
+         <TouchableOpacity onPress={()=> navigation.navigate('Deli', {requestDetails: details})} style={{backgroundColor:'blue',width:'30%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >Start</Text></TouchableOpacity>
          </View>
      </View>
     <View style={{backgroundColor:'black',borderWidth:1,}}/>
