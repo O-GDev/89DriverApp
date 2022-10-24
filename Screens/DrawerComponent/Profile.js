@@ -26,7 +26,7 @@ export function Profile(props) {
         `${apiUrl}/api/driverprofile/`,
         config
       );
-      // console.log(driverProfile)
+      console.log(driverProfile.data.driver.id)
       if (driverProfile.status === 200) {
         // console.log(driverProfile.data.driver.email)
         

@@ -26,54 +26,70 @@ import moment from "moment";
 
 const Stack = createNativeStackNavigator();
 
-// const token = AsyncStorage.getItem("user");
-// console.warn(JSON.parse(token));
-
 const App = () => {
   const [userToken, setUserToken] = useState(null);
   const [date, setDate] = useState(null);
+  const [onboardStatus, setOnboardStatus] = useState(null);
+  const [logStatus, setLogStatus] = useState(null)
   const [dateStatus, setDateStatus] = useState(true);
   useEffect(() => {
     const getToken = async () => {
       const token = await AsyncStorage.getItem("user");
       setUserToken(JSON.parse(token));
     };
+    const getStatus = async () => {
+      const status = await AsyncStorage.getItem("onboarding");
+      setOnboardStatus(status);
+      const see = JSON.parse(status);
+      console.log(see);
+    };
+    const getLoginStatus = async () => {
+      const loginStatus = await AsyncStorage.getItem('loginStatus')
+      if(loginStatus !== null){
+        setLogStatus(JSON.parse(loginStatus))
+      }
+      console.log(loginStatus)
+    }
     const autoLogout = async () => {
       const expiry = await AsyncStorage.getItem("expiryDate");
       setDate(JSON.parse(expiry));
-     if(date !== null){
-      const formattedDate = moment(date.substring(0, 10))
-      .startOf("day")
-      .fromNow();
+      if (date !== null) {
+        const formattedDate = moment(date.substring(0, 10))
+          .startOf("day")
+          .fromNow();
 
-      console.log(formattedDate);
-      if (formattedDate < Date.now) {
-        setDateStatus(false);
-        await AsyncStorage.remove("expiryDate");
-        await AsyncStorage.remove("user");
+        console.log(formattedDate);
+        if (formattedDate < Date.now) {
+          await AsyncStorage.removeItem("expiryDate");
+          await AsyncStorage.removeItem("user");
+          setDateStatus(false);
+          setUserToken(null);
+        }
       }
-     }
-     
     };
 
     getToken();
     autoLogout();
-  }, [userToken, date]);
+    getStatus();
+    getLoginStatus()
+  }, [userToken, date, onboardStatus]);
   return (
     <RootSiblingParent>
       <NavigationContainer>
         <Stack.Navigator>
-    {
-      userToken !== null && dateStatus !== true ? (
-        <>
-              {userToken === null ? (
+          {userToken === null ? (
             <>
-              <Stack.Screen
-                name="Onboard"
-                component={Onboard}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
+              {onboardStatus === true ? (
+                <Stack.Screen
+                  name="Onboard"
+                  component={Onboard}
+                  options={{ headerShown: false }}
+                />
+              ) : null}
+              {
+                logStatus === null ? (
+                  <>
+                  <Stack.Screen
                 name="Location"
                 component={Locations}
                 options={{ headerShown: false }}
@@ -87,13 +103,19 @@ const App = () => {
               <Stack.Screen
                 name="Verify phone"
                 component={SigninOTP}
-                options={{ headerShown: true, headerBackTitleVisible: false }}
+                options={{
+                  headerShown: true,
+                  headerBackTitleVisible: false,
+                }}
               />
 
               <Stack.Screen
                 name="Background Check"
                 component={BackgroundCheck}
-                options={{ headerShown: true, headerBackTitleVisible: false }}
+                options={{
+                  headerShown: true,
+                  headerBackTitleVisible: false,
+                }}
               />
 
               <Stack.Screen
@@ -114,17 +136,21 @@ const App = () => {
                   headerBackTitleVisible: false,
                 }}
               />
+                  </>
+                ) : (null)
+              }
             </>
           ) : null}
 
-          <Stack.Screen
-            name="Sign In"
-            component={SigninScreen}
-            options={{ headerShown: false, headerBackTitleVisible: false }}
-          />
-        </>
-      ) : (null)
-    }
+         
+      
+              <Stack.Screen
+              name="Sign In"
+              component={SigninScreen}
+              options={{ headerShown: false, headerBackTitleVisible: false }}
+            />
+        
+         
 
           <Stack.Screen
             name="Home"

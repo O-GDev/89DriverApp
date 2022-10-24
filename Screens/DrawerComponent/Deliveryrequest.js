@@ -126,7 +126,7 @@ export default function Deliveryrequest() {
                       fontSize: 20,
                     }}
                   >
-                    Accept Request
+                    View Request
                   </Text>
                 </TouchableOpacity>
               </View>

@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Settings = () => {
   const navigation = useNavigation();
     const logoutUser = async () => {
+      await AsyncStorage.removeItem('expiryDate')
       await AsyncStorage.removeItem('user');
       const user = await AsyncStorage.getItem('user')
      if(user ===null){

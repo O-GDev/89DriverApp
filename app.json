@@ -30,6 +30,11 @@
     },
     "web": {
       "favicon": "./assets/Logo@2x.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "82cb64ce-9ffb-497f-b2c5-49d462056a68"
+      }
     }
   }
 }

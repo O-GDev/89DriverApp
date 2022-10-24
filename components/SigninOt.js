@@ -45,7 +45,9 @@ const SigninOt = ({ emailName, phoneNumber }) => {
       if(loginStatus === true){
         navigation.navigate('Background Check')
       } else{
+        await AsyncStorage.setItem('loginStatus', JSON.stringify(loginStatus))
         navigation.navigate('Home')
+
       }    
      
     }

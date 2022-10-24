@@ -50,7 +50,7 @@ const route = useRoute()
   // console.warn(request)
 
 
-  const updateRequest = async () => {
+  const acceptRequest = async () => {
     const token = await AsyncStorage.getItem("user");
     const authToken = JSON.parse(token);
     let config = {
@@ -66,6 +66,24 @@ const route = useRoute()
     if(updateTask.data.status === true){
       navigation.navigate('Del', {requestDetails: request})
       Toast.show('Reuest Accepted')
+    }
+  }
+  const rejectRequest = async () => {
+    const token = await AsyncStorage.getItem("user");
+    const authToken = JSON.parse(token);
+    let config = {
+      headers: {
+        Authorization: `Token ${authToken}`,
+      },
+    };
+    const newStatus = {
+      id: request.id,
+      status: 'Decline'
+    }
+    const updateTask = await axios.patch(`${apiUrl}/api/driverrequest/`, newStatus, config);
+    if(updateTask.data.status === true){
+      navigation.navigate('Home')
+      Toast.show('Reuest Declined')
     }
   }
   return (
@@ -94,7 +112,7 @@ const route = useRoute()
          <View style={{paddingRight:10,paddingTop:15,flexDirection:'row',justifyContent:'flex-end'}}>
          <TouchableOpacity onPress={() => navigation.navigate('Del')} style={{backgroundColor:'blue',borderRadius:25,width:'40%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >reject request</Text></TouchableOpacity>
          <View style={{borderWidth:4,color:'white',opacity:0}}/>
-         <TouchableOpacity onPress={updateRequest} style={{backgroundColor:'blue',borderRadius:25,width:'40%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >accept request</Text></TouchableOpacity>
+         <TouchableOpacity onPress={acceptRequest} style={{backgroundColor:'blue',borderRadius:25,width:'40%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >accept request</Text></TouchableOpacity>
          </View>
          </View>
     ) : (null)
