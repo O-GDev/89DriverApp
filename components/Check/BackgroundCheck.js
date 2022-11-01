@@ -36,6 +36,11 @@ const [selectedItem, setSelectedItem] = useState(null)
     navigation.navigate('Vehicle Info')
       return true
   }
+
+
+
+
+  
   return (
     <KeyboardAvoidingView>
       <ScrollView style={{backgroundColor:'white'}}>
