@@ -36,39 +36,6 @@ const [selectedItem, setSelectedItem] = useState(null)
     navigation.navigate('Vehicle Info')
       return true
   }
-
-
-
-<<<<<<< HEAD
-
-  
-=======
-    let config = {
-      headers: {
-        Authorization: `Token ${authToken}`,
-      },
-    };
-
-    const driverProfile = await axios.post(
-      `${apiUrl}/api/driver/`,
-      driverInfo,
-       config
-    );
-
-    if(driverProfile.data.status === true){
-      Toast.show('Driver Created Successfully')
-      navigation.navigate("Vehicle Info");
-    }else{
-      Toast.show(driverProfile.data.status)
-    }
-
-    // } else{
-
-
-    // }
-  };
-
->>>>>>> parent of f654ea3 (api connect)
   return (
     <KeyboardAvoidingView>
       <ScrollView style={{backgroundColor:'white'}}>
