@@ -2,10 +2,11 @@ import { StyleSheet, Text, View, Alert,Image, SafeAreaView, StatusBar } from 're
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const Settings = () => {
   const navigation = useNavigation();
+<<<<<<< HEAD
     const logoutUser = async () => {
       await AsyncStorage.removeItem('expiryDate')
       await AsyncStorage.removeItem('user');
@@ -15,6 +16,8 @@ const Settings = () => {
      }
     }
 
+=======
+>>>>>>> 2102a9554670b747e8c08fe4251e051bf4adce28
   const Logout = () => {
     Alert.alert(
       "Logout",
@@ -25,7 +28,7 @@ const Settings = () => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "Logout", onPress: () => logoutUser()}
+        { text: "Logout", onPress: () => console.log("OK Pressed") }
       ]
     );
   }

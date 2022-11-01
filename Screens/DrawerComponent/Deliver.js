@@ -2,18 +2,11 @@ import { View, Text, TouchableOpacity,StatusBar,SafeAreaView,FlatList } from 're
 import React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useEffect } from 'react';
-import axios from "axios";
-import { apiUrl } from "../../config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from 'react';
-import Toast from 'react-native-root-toast';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function Deliver() {
-const route = useRoute()
   const navigation = useNavigation();
+<<<<<<< HEAD
   const requestId = route.params?.requestId
   const [request, setRequest] = useState(null)
   // console.warn(requestId)
@@ -86,10 +79,11 @@ const route = useRoute()
       Toast.show('Reuest Declined')
     }
   }
+=======
+>>>>>>> 2102a9554670b747e8c08fe4251e051bf4adce28
   return (
     
-    request ? (
-      <View>
+    <View>
       <StatusBar/>
       <SafeAreaView style={[GlobalStyle.horizontal_center_screen, { backgroundColor: 'white', height: '100%' }]} />
      <View style={{height:200,width:'100%'}} >
@@ -104,18 +98,17 @@ const route = useRoute()
     longitudeDelta: 0.0421}}
  />
       </View>
-      <Text style={{paddingLeft:15,paddingTop:15,fontSize:17,fontWeight:'600'}}>{request?.resturant_name || 'loading...'}</Text>
+      <Text style={{paddingLeft:15,paddingTop:15,fontSize:17,fontWeight:'600'}}>Frozen Food Joint</Text>
           <Text style={{fontSize: 15,paddingLeft:15 }}>
           <FontAwesome5 name='map-marker-alt' color={"blue"} size={30} />
-          {request?.delivery_address || 'loading...'}
+          2324 Murphy Court, East Derry, New Hampshire
           </Text>
          <View style={{paddingRight:10,paddingTop:15,flexDirection:'row',justifyContent:'flex-end'}}>
          <TouchableOpacity onPress={() => navigation.navigate('Del')} style={{backgroundColor:'blue',borderRadius:25,width:'40%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >reject request</Text></TouchableOpacity>
          <View style={{borderWidth:4,color:'white',opacity:0}}/>
-         <TouchableOpacity onPress={acceptRequest} style={{backgroundColor:'blue',borderRadius:25,width:'40%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >accept request</Text></TouchableOpacity>
+         <TouchableOpacity onPress={() => navigation.navigate('Del')} style={{backgroundColor:'blue',borderRadius:25,width:'40%',justifyContent:'center',alignSelf:'flex-end',alignContent:'center',height:40,}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >accept request</Text></TouchableOpacity>
          </View>
          </View>
-    ) : (null)
     
   )
 }
