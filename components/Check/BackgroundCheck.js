@@ -39,8 +39,31 @@ const [selectedItem, setSelectedItem] = useState(null)
 
 
 
+    let config = {
+      headers: {
+        Authorization: `Token ${authToken}`,
+      },
+    };
 
-  
+    const driverProfile = await axios.post(
+      `${apiUrl}/api/driver/`,
+      driverInfo,
+       config
+    );
+
+    if(driverProfile.data.status === true){
+      Toast.show('Driver Created Successfully')
+      navigation.navigate("Vehicle Info");
+    }else{
+      Toast.show(driverProfile.data.status)
+    }
+
+    // } else{
+
+
+    // }
+  };
+
   return (
     <KeyboardAvoidingView>
       <ScrollView style={{backgroundColor:'white'}}>

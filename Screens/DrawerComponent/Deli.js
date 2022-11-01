@@ -3,17 +3,10 @@ import React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { useState } from 'react'
-import axios from "axios";
-import { apiUrl } from "../../config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation, useRoute } from '@react-navigation/native'
+
 
 const{width,height} = Dimensions.get('window')
-
 export default function Deli() {
-  const route = useRoute()
-  const navigation = useNavigation()
-  const details = route.params.requestDetails
   const[name,setName]=useState('');
   const[submitted,setSubmitted]=useState(false)
   const[showWarning,setshowWarning]=useState(false)
@@ -24,27 +17,6 @@ export default function Deli() {
       setshowWarning(true)
     }
   }
-  const updateRequest = async () => {
-    const token = await AsyncStorage.getItem("user");
-    const authToken = JSON.parse(token);
-    let config = {
-      headers: {
-        Authorization: `Token ${authToken}`,
-      },
-    };
-    const newStatus = {
-      id: details.id,
-      status: 'Completed'
-    }
-    const updateTask = await axios.patch(`${apiUrl}/api/driverrequest/`, newStatus, config);
-    if(updateTask.data.status === true){
-      onPressHandler();
-      
-
-      
-    }
-  }
- 
   return (
     <View>
     <SafeAreaView/>
@@ -63,10 +35,7 @@ export default function Deli() {
     <Text style={{paddingLeft:20,fontSize:20,paddingBottom:10}}>Pickup Completed don't forget to collect your tips from the reciever</Text>
    <View style={{backgroundColor:'black',borderWidth:1,width:'90%',alignSelf:'center'}}/>
    <Text style={{paddingLeft:20,fontSize:20,paddingTop:10,paddingBottom:25}}>Your 890 Km is reading payment will be made on weekend. Thanks</Text>
-    <TouchableOpacity onPress={()=>{
-       setshowWarning(false)
-       navigation.navigate('Deliveryhistory')
-    }} style={{alignSelf:'flex-end',paddingRight:15,color:'blue',fontSize:17,fontWeight:'600'}}><Text>Ok</Text></TouchableOpacity>
+    <Text style={{alignSelf:'flex-end',paddingRight:15,color:'blue',fontSize:17,fontWeight:'600'}}>Ok</Text>
     </View>
     </View>
     </Modal>
@@ -101,11 +70,11 @@ export default function Deli() {
      <View style={{width:'95%',height:40,alignSelf:'center',justifyContent:'center',}}>
      <View style={{flexDirection:'row',justifyContent:'flex-end'}}>
      <View >
-      <TouchableOpacity onPress={updateRequest} style={{backgroundColor:'blue',padding:10,paddingLeft:25,paddingRight:25}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >Deliver</Text></TouchableOpacity>  
+      <TouchableOpacity onPress={onPressHandler} style={{backgroundColor:'blue',padding:10,paddingLeft:25,paddingRight:25}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >Deliver</Text></TouchableOpacity>  
      </View>
-     {/* <View style={{paddingLeft:10}}>
+     <View style={{paddingLeft:10}}>
       <TouchableOpacity  style={{backgroundColor:'blue',padding:10,paddingLeft:30,paddingRight:30}}><Text style={{justifyContent:'center',color:'white',fontWeight:'600',textAlign:'center',fontSize:18}} >Start</Text></TouchableOpacity>  
-     </View> */}
+     </View>
      </View>
    </View>
      </View>

@@ -4,42 +4,15 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import axios from "axios";
-import { apiUrl } from "../../config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const {width,height} = Dimensions.get('window');
 export function Profile(props) {
-  const [data, setData] = useState(null)
-
-  useEffect(()=> {
-    const getDriver = async () => {
-      const token = await AsyncStorage.getItem("user");
-        const authToken = JSON.parse(token);
-        let config = {
-          headers: {
-            Authorization: `Token ${authToken}`,
-          },
-        };
-       
-      const driverProfile = await  axios.get(
-        `${apiUrl}/api/driverprofile/`,
-        config
-      );
-      console.log(driverProfile.data.driver.id)
-      if (driverProfile.status === 200) {
-        // console.log(driverProfile.data.driver.email)
-        
-  
-      }
-      
-    }
-      getDriver()
-    })
   const [clientFirstName, setClientFirstName] = useState('John');
   const [clientSecondName, setClientSecondName] = useState('Walker')
   const [profemail,setProfemail] = useState('email@example.com')
   const [profPhoneNum,setProfPhoneNum] = useState('1234567890')
+  const [data, setData] = useState([])
 
   const navigation = useNavigation();
   return (

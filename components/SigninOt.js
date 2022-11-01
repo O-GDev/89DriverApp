@@ -17,6 +17,22 @@ const SigninOt = ({emailName,phoneNumber}) => {
   const route = useRoute();
   
 
+  const login = async () => {
+    const newDetails = {
+      otp: otpCode,
+      phone: user.phone,
+    };
+    // Alert.alert(newDetails.otpCode)
+    const loginResponse = await axios.post(`${apiUrl}/api/login/`, newDetails);
+    console.warn(loginResponse)
+    if (loginResponse.status === 200) {
+      Toast.show('Sign In Success')
+      const token = loginResponse.data.token;
+      await AsyncStorage.setItem("user", JSON.stringify(token));
+        navigation.navigate('Background Check')
+     
+    }
+  };
 
   const ValidateOtp = () => {
     if (otpCode===""){

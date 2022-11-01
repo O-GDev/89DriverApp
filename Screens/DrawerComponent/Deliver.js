@@ -5,7 +5,6 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useEffect } from 'react';
 import axios from "axios";
-import { apiUrl } from "../../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from 'react';
 import Toast from 'react-native-root-toast';
