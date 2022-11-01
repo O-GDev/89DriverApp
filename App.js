@@ -144,16 +144,11 @@ const App = () => {
 
          
       
-          {
-            userToken === null ? (
               <Stack.Screen
               name="Sign In"
               component={SigninScreen}
               options={{ headerShown: false, headerBackTitleVisible: false }}
             />
-            
-            ) : (null)
-          }
         
          
 
