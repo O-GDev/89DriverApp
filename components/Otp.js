@@ -5,43 +5,35 @@ import Otpinputfield from './Otpinputfield'
 import Otpfinals from "./Otpfinals";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
-import { useDrawerStatus } from "@react-navigation/drawer";
-import axios from "axios";
-import { apiUrl } from "../config";
 
 
 
 const {width,height}=Dimensions.get('window')
-const Otp = () => {
+const Otp = ({emailName,phoneNumber}) => {
   const [otpCode, setOTPCode] = useState("");
   const [isPinReady, setIsPinReady] = useState(false);
   const maximumCodeLength = 4;
   const navigation = useNavigation()
   const route = useRoute();
-  const user = route.params.user
 
-  const register = async() => {
-    const newDetails = {
-      otp: otpCode,
-      phone: user.phone,
-      email: user.email
-    }
-    // Alert.alert(newDetails.otpCode)
-    const resgisterResponse = await axios.post(`${apiUrl}/api/register/`, newDetails);
-    console.warn(resgisterResponse.data)
-    if(resgisterResponse.data.status === true){
-      navigation.navigate('Sign In')
-    }
-
-  }
 
   const ValidateOtp = () => {
-    if(!otpCode.trim()) {
-      Alert.alert(`Pls enter the OTP code sent to ${user.phone}`)
-    } else{
-     register();
+    if (otpCode===""){
+      Alert.alert("Confirm it's you", 'Pls enter the OTP code sent to 123456790', [{
+        text: "Didn't recieve a code? ",
+        onPress: () => console.log("Didn't recieve a code"),
+        style: "cancel"
+        },
+      {
+        text: "OK"
+      }
+    ]
+      )
+      return false
+    }else{
+      navigation.navigate('Background Check')
+      return true
     }
-   
   }
 
 
@@ -49,7 +41,7 @@ const Otp = () => {
      <SafeAreaView style={{}}>
     
        <View >
-       <Text style={{textAlign:'center',paddingTop:20,fontSize:16,paddingBottom:20}}>Code has been sent to {user.phone}</Text> 
+       <Text style={{textAlign:'center',paddingTop:20,fontSize:16,paddingBottom:20}}>code is sent to {route.params.phone}</Text> 
        <Text style={{paddingBottom:20,textAlign:'center',alignSelf:'center'}}>
   
        <Otpinputfield 
